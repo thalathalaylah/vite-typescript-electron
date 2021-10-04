@@ -4,7 +4,8 @@
   "main": "src_main/entrypoint.js",
   "scripts": {
     "electron": "electron .",
-    "package": "npm run build && electron-packager . my-app --platform=all --arch=x64 --prune --out=release --overwrite",
+    "package": "npm run build && electron-packager . my-app --platform=darwin --arch=x64 --prune --out=release --overwrite",
+    "package-all": "npm run build && electron-packager . my-app --platform=all --arch=x64 --prune --out=release --overwrite",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
