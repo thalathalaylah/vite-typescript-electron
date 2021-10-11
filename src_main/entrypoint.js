@@ -3,7 +3,7 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
 
-function createWindow() {
+async function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -12,10 +12,18 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  const startUrl = app.isPackaged
-      ? url.pathToFileURL(path.join(__dirname, '/../dist/index.html')).href
-      : 'http://localhost:3000'
-  mainWindow.loadURL(startUrl)
+  let startUrl
+
+  if (app.isPackaged) {
+    startUrl = url.pathToFileURL(path.join(__dirname, '/../dist/index.html')).href
+  } else {
+    const installExtension = require('electron-devtools-installer');
+    await installExtension.default([installExtension.REACT_DEVELOPER_TOOLS, installExtension.REDUX_DEVTOOLS])
+
+    startUrl = 'http://localhost:3000'
+  }
+
+  await mainWindow.loadURL(startUrl)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
